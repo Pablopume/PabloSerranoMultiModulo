@@ -4,5 +4,35 @@ module cliente{
     requires jakarta.inject;
     requires javafx.fxml;
     requires com.google.gson;
-
+    requires lombok;
+    requires okhttp3;
+    requires retrofit2;
+    requires io.vavr;
+    requires io.reactivex.rxjava3;
+    requires domain;
+    requires moshi;
+    requires retrofit2.converter.gson;
+    requires retrofit2.adapter.rxjava3;
+    requires javafx.controls;
+    requires org.apache.logging.log4j;
+    exports ui.main;
+    exports dao.impl;
+    opens ui.pantallas.articles;
+    exports ui.common;
+    exports usecases.empleado;
+    exports dao.common;
+    exports usecases.equipo;
+    exports usecases.proyecto;
+    exports dao.retrofit;
+    opens ui.main;
+    exports ui.principal;
+    opens dao.impl;
+    exports dao.di;
+    exports ui.menu;
+    opens ui.menu;
+    exports ui.pantallas.newspapers;
+    exports ui.pantallas.readers;
+    exports usecases.login;
+    exports ui.pantallas;
+    opens ui.pantallas;
 }

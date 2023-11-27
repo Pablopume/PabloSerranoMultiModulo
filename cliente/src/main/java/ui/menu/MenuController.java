@@ -10,12 +10,12 @@ public class MenuController extends BasePantallaController {
 
     @FXML
     private void enterNewspapers() {
-        getPrincipalController().cargarPantalla(Pantallas.NEWSPAPERS);
+        getPrincipalController().cargarPantalla(Pantallas.ARTICLES);
     }
 
     @FXML
     private void enterArticles() {
-        getPrincipalController().cargarPantalla(Pantallas.ARTICLES);
+        getPrincipalController().cargarPantalla(Pantallas.NEWSPAPERS);
     }
 
     public void enterReaders() {

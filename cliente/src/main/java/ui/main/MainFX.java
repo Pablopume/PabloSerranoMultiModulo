@@ -1,6 +1,6 @@
 package ui.main;
 
-import common.Constantes;
+import dao.common.Constantes;
 import jakarta.enterprise.event.Observes;
 import jakarta.inject.Inject;
 import javafx.fxml.FXMLLoader;

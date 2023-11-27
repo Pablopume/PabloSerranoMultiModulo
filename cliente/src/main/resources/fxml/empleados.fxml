@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.collections.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="521.0" prefWidth="1051.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.pantallas.articles.ArticlesController">
+    <TableView fx:id="articlesTable" layoutX="14.0" layoutY="210.0" prefHeight="253.0" prefWidth="309.0">
+        <columns>
+            <TableColumn fx:id="idColumn" prefWidth="34.0" text="id" />
+            <TableColumn fx:id="nameColumn" prefWidth="116.0" text="name" />
+            <TableColumn fx:id="apellidoColumn" prefWidth="173.0" text="description" />
+        </columns>
+    </TableView>
+   <Button layoutX="14.0" layoutY="476.0" mnemonicParsing="false" onAction="#atras" text="Atras" />
+   <TextField fx:id="nameField" layoutX="14.0" layoutY="27.0" prefHeight="25.0" prefWidth="174.0" promptText="name" />
+    <TextField fx:id="surnameField" layoutX="204.0" layoutY="27.0" prefHeight="25.0" prefWidth="168.0" promptText="surname" />
+    <TextField fx:id="emailField" layoutX="14.0" layoutY="70.0" prefHeight="25.0" prefWidth="174.0" promptText="email" />
+    <TextField fx:id="phoneField" layoutX="204.0" layoutY="70.0" prefHeight="25.0" prefWidth="174.0" promptText="phone" />
+
+
+   <Button layoutX="328.0" layoutY="210.0" mnemonicParsing="false" onAction="#reload" text="reload" />
+    <DatePicker fx:id="datePicker" layoutX="14.0" layoutY="118.0" promptText="Fecha de Nacimiento" />
+    <ComboBox fx:id="comboTipo" layoutX="204.0" layoutY="118.0" prefHeight="25.0" prefWidth="174.0" promptText="Equipo">
+        <items>
+            <FXCollections fx:factory="observableArrayList">
+                <String fx:value="Android" />
+                <String fx:value="IOS" />
+            </FXCollections>
+        </items>
+    </ComboBox>
+    <Button layoutX="14.0" layoutY="173.0" mnemonicParsing="false" onAction="#addArticle" text="Add" />
+
+    <Text layoutX="605.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Click en un equipo para ver sus miembros" wrappingWidth="330.0">
+        <font>
+            <Font size="20" /> <!-- Puedes ajustar el tamaño del texto aquí -->
+        </font>
+    </Text>
+   <TableView fx:id="equiposTable" layoutX="585.0" layoutY="134.0" prefHeight="253.0" prefWidth="309.0">
+      <columns>
+         <TableColumn fx:id="idEquipo" prefWidth="34.0" text="id" />
+         <TableColumn fx:id="nameEquipo" prefWidth="116.0" text="name" />
+         <TableColumn fx:id="especializacionEquipo" prefWidth="173.0" text="Especialización" />
+      </columns>
+   </TableView>
+    <Button fx:id="deleteButton" layoutX="144.0" layoutY="173.0" mnemonicParsing="false" onAction="#delete" text="Delete" />
+    <Button fx:id="updateButton" layoutX="68.0" layoutY="173.0" mnemonicParsing="false" onAction="#update" text="Update" />
+    <Button fx:id="infoButton" layoutX="431.0" layoutY="27.0" mnemonicParsing="false" onAction="#info" text="Manual de uso" />
+    <Button fx:id="deleteByEquipoButton" layoutX="585.0" layoutY="403.0" mnemonicParsing="false" onAction="#deleteEquipos" text="Delete empleados por equipo" />
+
+</AnchorPane>

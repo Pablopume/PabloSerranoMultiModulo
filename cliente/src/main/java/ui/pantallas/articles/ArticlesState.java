@@ -1,10 +1,12 @@
 package ui.pantallas.articles;
 
-import domain.model.Article;
-import domain.model.ArticleType;
-import domain.model.Newspaper;
+
+import domain.ErrorApp;
+import domain.modelo.Empleado;
+import domain.modelo.Equipo;
+import domain.modelo.Proyecto;
 
 import java.util.List;
 
-public record ArticlesState(List<Article> articleList, List<ArticleType> articleTypeList, List<Newspaper> newspaperList, String error) {
+public record ArticlesState(List<Empleado> empleadoList, List<Equipo> equipoList, ErrorApp error) {
 }

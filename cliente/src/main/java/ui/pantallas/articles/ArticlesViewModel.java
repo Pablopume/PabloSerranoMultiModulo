@@ -1,124 +1,157 @@
 package ui.pantallas.articles;
 
-import domain.model.ArticleType;
+import domain.modelo.Empleado;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import jakarta.inject.Inject;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
-import servicios.ArticleTypeServicios;
-import servicios.ArticlesServicios;
-import servicios.NewspapersServicios;
+import usecases.empleado.*;
+import usecases.equipo.GetAllEquipoUseCase;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ArticlesViewModel {
-    private final ArticlesServicios articlesServicios;
-    private final ArticleTypeServicios articleTypeServicios;
-    private final NewspapersServicios newspapersServicios;
-
+    private final GetAllEmpleadosUseCase getAllEmpleadosUseCase;
+    private final GetAllEquipoUseCase getAllEquipoUseCase;
+    private final AddEmpleadoUseCase addEmpleadoUseCase;
+    private final GetAllByEquipo getAllByEquipo;
+    private final ObjectProperty<ArticlesState> state;
+    private final DeleteEmpleadoUseCase deleteEmpleadoUseCase;
+    private final UpdateEmpleadoUseCase updateEmpleadoUseCase;
+    private final DeleteByEquipoUseCase deleteByEquipoUseCase;
     @Inject
-    ArticlesViewModel(ArticlesServicios articlesServicios, ArticleTypeServicios articleTypeServicios, NewspapersServicios newspapersServicios) {
-        this.articlesServicios = articlesServicios;
-        this.articleTypeServicios = articleTypeServicios;
-        this.newspapersServicios = newspapersServicios;
-
-        state = new SimpleObjectProperty<>(new ArticlesState(FXCollections.observableArrayList(),
-                FXCollections.observableArrayList(), FXCollections.observableArrayList(),null));
+    ArticlesViewModel(GetAllEmpleadosUseCase getAllEmpleadosUseCase, AddEmpleadoUseCase addEmpleadoUseCase, GetAllEquipoUseCase getAllEquipoUseCase, GetAllByEquipo getAllByEquipo, DeleteEmpleadoUseCase deleteEmpleadoUseCase, UpdateEmpleadoUseCase updateEmpleadoUseCase, DeleteByEquipoUseCase deleteByEquipoUseCase){
+        this.getAllEmpleadosUseCase = getAllEmpleadosUseCase;
+        this.getAllEquipoUseCase = getAllEquipoUseCase;
+        this.addEmpleadoUseCase = addEmpleadoUseCase;
+        this.getAllByEquipo = getAllByEquipo;
+        this.deleteEmpleadoUseCase = deleteEmpleadoUseCase;
+        this.updateEmpleadoUseCase = updateEmpleadoUseCase;
+        this.deleteByEquipoUseCase = deleteByEquipoUseCase;
+        state = new SimpleObjectProperty<>(new ArticlesState(FXCollections.observableArrayList()
+                , FXCollections.observableArrayList(), null));
     }
 
-    private final ObjectProperty<ArticlesState> state;
 
     public ReadOnlyObjectProperty<ArticlesState> getState() {
         return state;
     }
 
 
-    public void getAllArticles() {
-        articlesServicios.getAllArticles()
+    public void getAllEmpleados() {
+        getAllEmpleadosUseCase.execute()
                 .observeOn(Schedulers.single())
                 .subscribe(either -> {
                     ArticlesState articlesState;
 
                     if (either.isLeft()) {
-                        articlesState = new ArticlesState(null, null, null,either.getLeft());
+                        articlesState = new ArticlesState(null,null, either.getLeft());
                     } else {
-                        articlesState = new ArticlesState(either.get(), state.getValue().articleTypeList(), state.getValue().newspaperList(), null);
+                        articlesState = new ArticlesState(either.get(),state.get().equipoList(), null);
                     }
 
                     state.setValue(articlesState);
                 });
     }
 
-    public void getArticleById(String type) {
-        articlesServicios.getArticleByName(type)
+    public void getAllEquipo() {
+        getAllEquipoUseCase.execute()
                 .observeOn(Schedulers.single())
                 .subscribe(either -> {
                     ArticlesState articlesState;
-
                     if (either.isLeft()) {
-                        articlesState = new ArticlesState(null, null, null, either.getLeft());
+                        articlesState = new ArticlesState(null,null, either.getLeft());
                     } else {
-                        articlesState = new ArticlesState(either.get(), state.getValue().articleTypeList(), state.getValue().newspaperList(), null);
+                        articlesState = new ArticlesState(state.get().empleadoList(), either.get(), null);
                     }
-
                     state.setValue(articlesState);
                 });
     }
 
-    public void getAllArticleType() {
-        articleTypeServicios.getAllArticleType()
+    public void getAllByEquipo(String equipoId) {
+        getAllByEquipo.execute(equipoId)
                 .observeOn(Schedulers.single())
                 .subscribe(either -> {
                     ArticlesState articlesState;
-
                     if (either.isLeft()) {
-                        articlesState = new ArticlesState(null, null, null, either.getLeft());
+                        articlesState = new ArticlesState(new ArrayList<>(),null, either.getLeft());
                     } else {
-                        articlesState = new ArticlesState(state.getValue().articleList(), either.get(), state.get().newspaperList(), null);
+                        articlesState = new ArticlesState(either.get(),state.get().equipoList(), null);
                     }
-
                     state.setValue(articlesState);
                 });
     }
 
-    public void getAllNewspapers(){
-        newspapersServicios.getAllNewspapers()
-                .observeOn(Schedulers.io())
+
+    public void addEmpleado(Empleado empleado) {
+        addEmpleadoUseCase.execute(empleado)
+                .observeOn(Schedulers.single())
                 .subscribe(either -> {
                     ArticlesState articlesState;
-
-                    if (either.isLeft()){
-                        articlesState = new ArticlesState(null,null,null,null);
+                    if (either.isLeft()) {
+                        articlesState = new ArticlesState(null, null,either.getLeft());
                     } else {
-                        articlesState = new ArticlesState(state.getValue().articleList(), state.getValue().articleTypeList(),
-                                either.get(), null);
-                    }
+                        List<Empleado> newEmpleadoList = new ArrayList<>(state.getValue().empleadoList());
+                        newEmpleadoList.add(either.get());
 
+                        articlesState = new ArticlesState(newEmpleadoList, state.get().equipoList(), null);
+                    }
                     state.setValue(articlesState);
                 });
     }
 
-    public void addArticle(String name, String description, String typeName, String newspaperName) {
-        int idType = state.getValue().articleTypeList().stream().filter(articleType -> articleType.getName().equals(typeName)).findFirst().orElse(null).getId();
 
-        int idNewspaper = state.getValue().newspaperList().stream().filter(newspaper -> newspaper.getName_newspaper().equals(newspaperName))
-                        .findFirst().orElse(null).getId();
-
-        articlesServicios.addArticle(name, description, idType, idNewspaper)
-                .observeOn(Schedulers.io())
+    public void deleteEmpleado(String id) {
+        deleteEmpleadoUseCase.execute(id)
+                .observeOn(Schedulers.single())
                 .subscribe(either -> {
                     ArticlesState articlesState;
-
-                    if (either.isLeft()){
-                        articlesState = new ArticlesState(null,null,null,null);
+                    if (either.isLeft()) {
+                        articlesState = new ArticlesState(null, null,either.getLeft());
                     } else {
-                        articlesState = new ArticlesState(state.getValue().articleList(), state.getValue().articleTypeList(),
-                                state.getValue().newspaperList(), null);
-                    }
+                        List<Empleado> newEmpleadoList = new ArrayList<>(state.getValue().empleadoList());
+                        newEmpleadoList.removeIf(empleado -> empleado.getId().equals(id));
 
+                        articlesState = new ArticlesState(newEmpleadoList, state.get().equipoList(), null);
+                    }
                     state.setValue(articlesState);
                 });
     }
+
+    public void updateEmpleado(Empleado empleado) {
+        updateEmpleadoUseCase.execute(empleado)
+                .observeOn(Schedulers.single())
+                .subscribe(either -> {
+                    ArticlesState articlesState;
+                    if (either.isLeft()) {
+                        articlesState = new ArticlesState(null, null,either.getLeft());
+                    } else {
+                        List<Empleado> newEmpleadoList = new ArrayList<>(state.getValue().empleadoList());
+                        newEmpleadoList.removeIf(empleado1 -> empleado1.getId().equals(empleado.getId()));
+                        newEmpleadoList.add(either.get());
+                        articlesState = new ArticlesState(newEmpleadoList, state.get().equipoList(), null);
+                    }
+                    state.setValue(articlesState);
+                });
+    }
+    public void deleteEmpleadoByEquipo(String id) {
+        deleteByEquipoUseCase.execute(id)
+                .observeOn(Schedulers.single())
+                .subscribe(either -> {
+                    ArticlesState articlesState;
+                    if (either.isLeft()) {
+                        articlesState = new ArticlesState(null, null,either.getLeft());
+                    } else {
+                        List<Empleado> newEmpleadoList = new ArrayList<>(state.getValue().empleadoList());
+                        newEmpleadoList.removeIf(empleado -> empleado.getEquipoId().equals(id));
+
+                        articlesState = new ArticlesState(newEmpleadoList, state.get().equipoList(), null);
+                    }
+                    state.setValue(articlesState);
+                });
+    }
+
 }
