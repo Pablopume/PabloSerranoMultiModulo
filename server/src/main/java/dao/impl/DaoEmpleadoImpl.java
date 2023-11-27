@@ -145,11 +145,14 @@ public class DaoEmpleadoImpl implements DaoEmpleado {
     public Empleado update(Empleado empleado) {
         Empleado resultEmpleado = null;
         try (Connection myConnection = db.getConnection();
-             PreparedStatement statement = myConnection.prepareStatement("UPDATE Empleado SET NOMBRE = ?, APELLIDO = ?, DOB = ? WHERE ID = ?")) {
+             PreparedStatement statement = myConnection.prepareStatement("UPDATE Empleado SET NOMBRE = ?, APELLIDO = ?, DOB = ?, EMAIL= ?, TELEFONO=?, IDEQUIPO=? WHERE ID = ?")) {
             statement.setString(1, empleado.getNombre());
             statement.setString(2, empleado.getApellido());
             statement.setDate(3, Date.valueOf(empleado.getFechaNacimiento()));
-            statement.setString(4, empleado.getId());
+            statement.setString(4, empleado.getEmail());
+            statement.setString(5, empleado.getTelefono());
+            statement.setString(6, empleado.getEquipoId());
+            statement.setString(7, empleado.getId());
             int rs = statement.executeUpdate();
             if (rs == 0) {
                 throw new NotFoundException("No hay empleado con ese id");

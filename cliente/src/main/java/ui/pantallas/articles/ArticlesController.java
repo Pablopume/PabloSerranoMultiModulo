@@ -77,7 +77,8 @@ public class ArticlesController extends BasePantallaController {
         equiposTable.setOnMouseClicked(event -> {
             Equipo selectedEquipo = equiposTable.getSelectionModel().getSelectedItem();
             articlesViewModel.getAllByEquipo(selectedEquipo.getId());
-            System.out.println(selectedEquipo.getId());
+
+
         });
 
     }
@@ -108,6 +109,7 @@ public class ArticlesController extends BasePantallaController {
                 idEquipo = "7dde4d50-8b03-11ee-b9d1-0242ac120002";
             }
             articlesViewModel.addEmpleado(new Empleado(nameField.getText(), surnameField.getText(), datePicker.getValue(), emailField.getText(), phoneField.getText(), idEquipo));
+
         }
     }
 
@@ -115,6 +117,7 @@ public class ArticlesController extends BasePantallaController {
     private void reload() {
         articlesViewModel.getAllEmpleados();
         articlesViewModel.getAllEquipo();
+
     }
 
 
@@ -129,6 +132,8 @@ public class ArticlesController extends BasePantallaController {
     }
 
     public void update() {
+
+
         Empleado selectedEmpleado = articlesTable.getSelectionModel().getSelectedItem();
         if (selectedEmpleado == null) {
             getPrincipalController().sacarAlertError("Selecciona un empleado");
@@ -137,7 +142,14 @@ public class ArticlesController extends BasePantallaController {
             getPrincipalController().sacarAlertError("Rellena todos los campos");
 
         }else {
-            Empleado empleado = new Empleado(selectedEmpleado.getId(), nameField.getText(), surnameField.getText(), datePicker.getValue(), emailField.getText(), phoneField.getText(), selectedEmpleado.getEquipoId());
+            String idEquipo = null;
+            if (comboTipo.getValue().equals("IOS")) {
+                idEquipo = "7dde4d50-8b03-11ee-b9d1-0242ac120003";
+            }
+            if (comboTipo.getValue().equals("Android")) {
+                idEquipo = "7dde4d50-8b03-11ee-b9d1-0242ac120002";
+            }
+            Empleado empleado = new Empleado(selectedEmpleado.getId(), nameField.getText(), surnameField.getText(), datePicker.getValue(), emailField.getText(), phoneField.getText(), idEquipo);
             articlesViewModel.updateEmpleado(empleado);
         }
 
@@ -154,6 +166,8 @@ public class ArticlesController extends BasePantallaController {
     RELOAD -> Recargar la tabla de todos los usuarios
     ATRAS -> Volver al menu principal
     Filtrar lista por equipo -> Seleccionar un equipo de la tabla de equipos
+    Al añadir un empleado si estás filtrando por un equipo solo lo verás en la tabla instantaneamente si pertenece al equipo seleccionado
+    Al actualizar, si cambias de equipo al empleado y estás filtrando por otro equipo, desaparecerá de esa tabla ya que ya no pertenece a ese equipo.
     """);
 
         alert.showAndWait();

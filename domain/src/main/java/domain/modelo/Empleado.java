@@ -5,21 +5,22 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 @NoArgsConstructor
 @Data
 @AllArgsConstructor
 public class Empleado {
-    String id;
+    UUID id;
     String nombre;
     String apellido;
     LocalDate fechaNacimiento;
     String email;
     String telefono;
-    String equipoId;
+    UUID equipoId;
 
     public Empleado(String nombre, String apellido, LocalDate fechaNacimiento, String email,
-                    String telefono, String equipoId) {
+                    String telefono, UUID equipoId) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.fechaNacimiento = fechaNacimiento;

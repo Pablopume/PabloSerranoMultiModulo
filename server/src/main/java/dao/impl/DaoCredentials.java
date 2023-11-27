@@ -2,6 +2,7 @@ package dao.impl;
 
 import dao.DBConnectionPool;
 import dao.HasheoContrasenyas;
+import dao.exceptions.DataBaseCaidaException;
 import de.mkammerer.argon2.Argon2;
 import de.mkammerer.argon2.Argon2Factory;
 import domain.modelo.Credentials;
@@ -18,29 +19,26 @@ public class DaoCredentials {
         this.dbConnectionPool = dbConnectionPool;
     }
 
-    public boolean checkCredentials(String user, String password) {
+    public Credentials checkCredentials(String user) {
+        Credentials credentials = new Credentials();
         try (Connection con = dbConnectionPool.getConnection();
              PreparedStatement preparedStatement = con.prepareStatement("SELECT * FROM Credentials WHERE username = ?")) {
             preparedStatement.setString(1, user);
             ResultSet rs = preparedStatement.executeQuery();
             if (rs.next()) {
-                String storedHash = rs.getString("password");
-                return verifyPassword(password, storedHash);
-            } else {
-                return false;
+
+                credentials.setUsername(rs.getString("username"));
+                credentials.setPassword(rs.getString("password"));
+             //   String storedHash = rs.getString("password");
+               // return verifyPassword(password, storedHash);
             }
+
         } catch (SQLException ex) {
-            return false;
+            throw new DataBaseCaidaException("Error al comprobar las credenciales");
         }
+        return credentials;
     }
-    public boolean verifyPassword(String providedPassword, String storedHash) {
-        Argon2 argon2 = Argon2Factory.create();
-        try {
-            return argon2.verify(storedHash, providedPassword.toCharArray());
-        } finally {
-            argon2.wipeArray(providedPassword.toCharArray());
-        }
-    }
+
 
     public Credentials addCredentials(Credentials credentials) {
         try (Connection con = dbConnectionPool.getConnection();

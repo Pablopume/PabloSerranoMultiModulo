@@ -22,6 +22,7 @@ public class ArticlesViewModel {
     private final DeleteEmpleadoUseCase deleteEmpleadoUseCase;
     private final UpdateEmpleadoUseCase updateEmpleadoUseCase;
     private final DeleteByEquipoUseCase deleteByEquipoUseCase;
+    private String tablaSeleccionada = null;
     @Inject
     ArticlesViewModel(GetAllEmpleadosUseCase getAllEmpleadosUseCase, AddEmpleadoUseCase addEmpleadoUseCase, GetAllEquipoUseCase getAllEquipoUseCase, GetAllByEquipo getAllByEquipo, DeleteEmpleadoUseCase deleteEmpleadoUseCase, UpdateEmpleadoUseCase updateEmpleadoUseCase, DeleteByEquipoUseCase deleteByEquipoUseCase){
         this.getAllEmpleadosUseCase = getAllEmpleadosUseCase;
@@ -66,6 +67,7 @@ public class ArticlesViewModel {
                         articlesState = new ArticlesState(null,null, either.getLeft());
                     } else {
                         articlesState = new ArticlesState(state.get().empleadoList(), either.get(), null);
+                    tablaSeleccionada = null;
                     }
                     state.setValue(articlesState);
                 });
@@ -80,6 +82,7 @@ public class ArticlesViewModel {
                         articlesState = new ArticlesState(new ArrayList<>(),null, either.getLeft());
                     } else {
                         articlesState = new ArticlesState(either.get(),state.get().equipoList(), null);
+                    tablaSeleccionada = equipoId;
                     }
                     state.setValue(articlesState);
                 });
@@ -87,16 +90,18 @@ public class ArticlesViewModel {
 
 
     public void addEmpleado(Empleado empleado) {
+
         addEmpleadoUseCase.execute(empleado)
                 .observeOn(Schedulers.single())
                 .subscribe(either -> {
                     ArticlesState articlesState;
                     if (either.isLeft()) {
-                        articlesState = new ArticlesState(null, null,either.getLeft());
+                        articlesState = new ArticlesState(state.getValue().empleadoList(), state.getValue().equipoList(), either.getLeft());
                     } else {
                         List<Empleado> newEmpleadoList = new ArrayList<>(state.getValue().empleadoList());
-                        newEmpleadoList.add(either.get());
-
+                        if (tablaSeleccionada==null ||tablaSeleccionada.equals(either.get().getEquipoId())){
+                            newEmpleadoList.add(either.get());
+                        }
                         articlesState = new ArticlesState(newEmpleadoList, state.get().equipoList(), null);
                     }
                     state.setValue(articlesState);
@@ -131,7 +136,9 @@ public class ArticlesViewModel {
                     } else {
                         List<Empleado> newEmpleadoList = new ArrayList<>(state.getValue().empleadoList());
                         newEmpleadoList.removeIf(empleado1 -> empleado1.getId().equals(empleado.getId()));
-                        newEmpleadoList.add(either.get());
+                        if (tablaSeleccionada==null ||tablaSeleccionada.equals(either.get().getEquipoId())) {
+                            newEmpleadoList.add(either.get());
+                        }
                         articlesState = new ArticlesState(newEmpleadoList, state.get().equipoList(), null);
                     }
                     state.setValue(articlesState);
