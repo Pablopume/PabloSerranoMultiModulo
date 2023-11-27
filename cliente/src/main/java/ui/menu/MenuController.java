@@ -1,6 +1,5 @@
 package ui.menu;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import ui.common.BasePantallaController;
 import ui.common.Pantallas;
@@ -9,16 +8,16 @@ public class MenuController extends BasePantallaController {
 
 
     @FXML
-    private void enterNewspapers() {
-        getPrincipalController().cargarPantalla(Pantallas.ARTICLES);
+    private void enterEmpleados() {
+        getPrincipalController().cargarPantalla(Pantallas.EMPLEADOS);
     }
 
     @FXML
-    private void enterArticles() {
-        getPrincipalController().cargarPantalla(Pantallas.NEWSPAPERS);
+    private void enterEquipos() {
+        getPrincipalController().cargarPantalla(Pantallas.EQUIPOS);
     }
 
-    public void enterReaders() {
-        getPrincipalController().cargarPantalla(Pantallas.READERS);
+    public void enterProyectos() {
+        getPrincipalController().cargarPantalla(Pantallas.PROYECTOS);
     }
 }

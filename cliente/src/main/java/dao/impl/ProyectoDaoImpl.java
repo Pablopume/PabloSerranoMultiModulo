@@ -12,6 +12,7 @@ import io.vavr.control.Either;
 import jakarta.inject.Inject;
 
 import java.util.List;
+import java.util.UUID;
 
 public class ProyectoDaoImpl extends DaoGenerics implements ProyectoDao {
     private final ProyectoApi proyectoApi;
@@ -29,7 +30,7 @@ public class ProyectoDaoImpl extends DaoGenerics implements ProyectoDao {
     }
 
     @Override
-    public Single<Either<ErrorApp, Proyecto>> get(String id) {
+    public Single<Either<ErrorApp, Proyecto>> get(UUID id) {
         return safeAPICall(proyectoApi.get(id));
     }
 }

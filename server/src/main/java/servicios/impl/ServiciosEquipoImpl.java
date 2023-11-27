@@ -1,12 +1,12 @@
 package servicios.impl;
 
 import dao.DaoEquipo;
-import domain.modelo.Empleado;
 import domain.modelo.Equipo;
 import jakarta.inject.Inject;
 import servicios.ServicioEquipo;
 
 import java.util.List;
+import java.util.UUID;
 
 public class ServiciosEquipoImpl implements ServicioEquipo {
     private final DaoEquipo daoEquipo;
@@ -21,7 +21,7 @@ public class ServiciosEquipoImpl implements ServicioEquipo {
     }
 
     @Override
-    public Equipo get(String id) {
+    public Equipo get(UUID id) {
         return daoEquipo.get(id);
     }
 

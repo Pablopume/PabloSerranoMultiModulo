@@ -1,5 +1,6 @@
 package ui.pantallas;
 
+import dao.common.Constantes;
 import domain.modelo.Credentials;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import jakarta.inject.Inject;
@@ -25,7 +26,7 @@ public class RegisterController extends BasePantallaController {
 
     public void register() {
         if (userField.getText().isEmpty() || passwordField.getText().isEmpty()) {
-            getPrincipalController().sacarAlertError("Rellene todos los campos");
+            getPrincipalController().sacarAlertError(Constantes.RELLENA_TODOS_LOS_CAMPOS);
         } else {
             addCredentialsUseCase.execute(new Credentials(userField.getText(),passwordField.getText())).observeOn(Schedulers.single())
                     .subscribe(either -> Platform.runLater(() -> {

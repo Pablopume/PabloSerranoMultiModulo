@@ -1,15 +1,12 @@
 package ui.common;
 
+import lombok.Getter;
 import ui.principal.PrincipalController;
 
 import java.io.IOException;
-
+@Getter
 public class BasePantallaController {
     private PrincipalController principalController;
-
-    public PrincipalController getPrincipalController() {
-        return principalController;
-    }
 
     public void setPrincipalController(PrincipalController principalController) {
         this.principalController = principalController;
@@ -17,6 +14,6 @@ public class BasePantallaController {
 
 
     public void principalCargado() throws IOException {
-        //Para llamar cuando cargue
+        // No hace nada por defecto
     }
 }

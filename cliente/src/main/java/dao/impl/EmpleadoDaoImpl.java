@@ -11,6 +11,7 @@ import io.vavr.control.Either;
 import jakarta.inject.Inject;
 
 import java.util.List;
+import java.util.UUID;
 
 public class EmpleadoDaoImpl extends DaoGenerics implements EmpleadoDao {
     private final EmpleadoApi empleadoApi;
@@ -43,17 +44,17 @@ public class EmpleadoDaoImpl extends DaoGenerics implements EmpleadoDao {
     }
 
     @Override
-    public Single<Either<ErrorApp, String>> delete(String id) {
+    public Single<Either<ErrorApp, String>> delete(UUID id) {
        return safeSingleVoidApicall(empleadoApi.deleteEmpleado(id));
     }
 
     @Override
-    public Single<Either<ErrorApp, List<Empleado>>> getAll(String equipoId) {
+    public Single<Either<ErrorApp, List<Empleado>>> getAll(UUID equipoId) {
         return safeAPICall(empleadoApi.getAllByEquipo(equipoId));
     }
 
     @Override
-    public Single<Either<ErrorApp, String>> deleteByEquipo(String equipoId) {
+    public Single<Either<ErrorApp, String>> deleteByEquipo(UUID equipoId) {
         return safeSingleVoidApicall(empleadoApi.deleteEmpleadoEquipo(equipoId));
     }
 }

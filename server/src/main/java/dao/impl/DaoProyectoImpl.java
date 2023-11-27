@@ -1,7 +1,9 @@
 package dao.impl;
 
+import dao.ConstantesDao;
 import dao.DBConnectionPool;
 import dao.DaoProyecto;
+import dao.Querys;
 import dao.exceptions.DataBaseCaidaException;
 import dao.exceptions.NotFoundException;
 import domain.modelo.Proyecto;
@@ -10,6 +12,7 @@ import jakarta.inject.Inject;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class DaoProyectoImpl implements DaoProyecto {
     private final DBConnectionPool db;
@@ -22,37 +25,38 @@ public class DaoProyectoImpl implements DaoProyecto {
     @Override
     public List<Proyecto> getAll() {
         List<Proyecto> proyectos = new ArrayList<>();
-        try (Connection con = db.getConnection()) {
-            Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM Proyecto");
+        try (Connection con = db.getConnection();
+             Statement stmt = con.createStatement();) {
+
+            ResultSet rs = stmt.executeQuery(Querys.SELECT_FROM_PROYECTO);
             proyectos = readRS(rs);
             if (proyectos.isEmpty()) {
-                throw new NotFoundException("No hay proyectos");
+                throw new NotFoundException(ConstantesDao.NO_HAY_PROYECTOS);
             }
             db.closeConnection(con);
         } catch (SQLException e) {
-            throw new DataBaseCaidaException("Error en la base de datos");
+            throw new DataBaseCaidaException(ConstantesDao.ERROR_EN_LA_BASE_DE_DATOS);
         }
 
         return proyectos;
     }
 
     @Override
-    public Proyecto get(String id) {
+    public Proyecto get(UUID id) {
         Proyecto proyecto = null;
         try (Connection con = db.getConnection();
-             PreparedStatement statement = con.prepareStatement("SELECT * FROM Proyecto WHERE ID = ?")) {
-            statement.setString(1, id);
+             PreparedStatement statement = con.prepareStatement(Querys.SELECT_FROM_PROYECTO_WHERE_ID)) {
+            statement.setString(1, String.valueOf(id));
             ResultSet rs = statement.executeQuery();
             List<Proyecto> proyectos = readRS(rs);
             if (proyectos.isEmpty()) {
-                throw new NotFoundException("No hay proyecto con ese id");
+                throw new NotFoundException(ConstantesDao.NO_HAY_PROYECTO_CON_ESE_ID);
             } else {
                 proyecto = proyectos.get(0);
             }
             db.closeConnection(con);
         } catch (SQLException e) {
-            throw new DataBaseCaidaException("Error en la base de datos");
+            throw new DataBaseCaidaException(ConstantesDao.ERROR_EN_LA_BASE_DE_DATOS);
         }
         return proyecto;
     }
@@ -62,17 +66,17 @@ public class DaoProyectoImpl implements DaoProyecto {
         try {
             while (rs.next()) {
                 Proyecto resultProyecto = new Proyecto(
-                        rs.getString("id"),
-                        rs.getString("nombre"),
-                        rs.getString("descripcion"),
-                        rs.getDate("fechaInicio").toLocalDate(),
-                        rs.getDate("fechaFinalizacion").toLocalDate()
+                        UUID.fromString(rs.getString(ConstantesDao.ID)),
+                        rs.getString(ConstantesDao.NOMBRE),
+                        rs.getString(ConstantesDao.DESCRIPCION),
+                        rs.getDate(ConstantesDao.FECHA_INICIO).toLocalDate(),
+                        rs.getDate(ConstantesDao.FECHA_FINALIZACION).toLocalDate()
                 );
                 proyectos.add(resultProyecto);
             }
 
         } catch (SQLException e) {
-            throw new DataBaseCaidaException("Error en la base de datos");
+            throw new DataBaseCaidaException(ConstantesDao.ERROR_EN_LA_BASE_DE_DATOS);
         }
         return proyectos;
     }

@@ -1,7 +1,9 @@
 package dao.impl;
 
+import dao.ConstantesDao;
 import dao.DBConnectionPool;
 import dao.DaoEquipo;
+import dao.Querys;
 import dao.exceptions.DataBaseCaidaException;
 import dao.exceptions.NotFoundException;
 import domain.modelo.Equipo;
@@ -11,6 +13,7 @@ import lombok.extern.log4j.Log4j2;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Log4j2
 public class DaoEquipoImpl implements DaoEquipo {
@@ -26,34 +29,34 @@ public class DaoEquipoImpl implements DaoEquipo {
         try (Connection myConnection = db.getConnection();
              Statement statement = myConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
                      ResultSet.CONCUR_READ_ONLY)) {
-            ResultSet rs = statement.executeQuery("SELECT * FROM Equipo");
+            ResultSet rs = statement.executeQuery(Querys.SELECT_FROM_EQUIPO);
             equipos = readRS(rs);
             if (equipos.isEmpty()) {
-                throw new NotFoundException("No hay equipos");
+                throw new NotFoundException(ConstantesDao.NO_HAY_EQUIPOS);
             }
             db.closeConnection(myConnection);
         } catch (SQLException e) {
             log.error(e.getMessage());
-            throw new DataBaseCaidaException("Error en la base de datos");
+            throw new DataBaseCaidaException(ConstantesDao.ERROR_EN_LA_BASE_DE_DATOS);
         }
         return equipos;
     }
-    public Equipo get(String id) {
+    public Equipo get(UUID id) {
         Equipo equipo = null;
         try (Connection myConnection = db.getConnection();
-             PreparedStatement statement = myConnection.prepareStatement("SELECT * FROM Equipo WHERE ID = ?")) {
-            statement.setString(1, id);
+             PreparedStatement statement = myConnection.prepareStatement(Querys.SELECT_FROM_EQUIPO_WHERE_ID)) {
+            statement.setString(1, String.valueOf(id));
             ResultSet rs = statement.executeQuery();
             List<Equipo> equipos = readRS(rs);
             if (equipos.isEmpty()) {
-                throw new NotFoundException("No hay equipo con ese id");
+                throw new NotFoundException(ConstantesDao.NO_HAY_EQUIPO_CON_ESE_ID);
             }else {
                 equipo = equipos.get(0);
             }
             db.closeConnection(myConnection);
         } catch (SQLException e) {
             log.error(e.getMessage());
-            throw new DataBaseCaidaException("Error en la base de datos");
+            throw new DataBaseCaidaException(ConstantesDao.ERROR_EN_LA_BASE_DE_DATOS);
         }
         return equipo;
     }
@@ -63,14 +66,14 @@ public class DaoEquipoImpl implements DaoEquipo {
         try {
             while (rs.next()) {
                 Equipo resultEquipo = new Equipo(
-                        rs.getString("id"),
-                        rs.getString("nombre"),
-                        rs.getString("especializacion"));
+                        UUID.fromString(rs.getString(ConstantesDao.ID)),
+                        rs.getString(ConstantesDao.NOMBRE),
+                        rs.getString(ConstantesDao.ESPECIALIZACION));
                 equipos.add(resultEquipo);
             }
         } catch (SQLException e) {
             log.error(e.getMessage());
-            throw new DataBaseCaidaException("Error en la base de datos");
+            throw new DataBaseCaidaException(ConstantesDao.ERROR_EN_LA_BASE_DE_DATOS);
         }
         return equipos;
     }

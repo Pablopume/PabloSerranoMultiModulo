@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.pantallas.LoginController">
+<AnchorPane style="-fx-background-color: #34b7eb" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.pantallas.LoginController">
     <TextField fx:id="userField" layoutX="76.0" layoutY="122.0" prefHeight="25.0" prefWidth="174.0" promptText="User" />
     <PasswordField fx:id="passwordField" layoutX="76.0" layoutY="175.0" prefHeight="25.0" prefWidth="174.0" promptText="Password" />
 <Button layoutX="76.0" layoutY="227.0" mnemonicParsing="false" onAction="#login" text="Login" />

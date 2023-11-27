@@ -1,6 +1,7 @@
 package usecases.empleado;
 
 import dao.EmpleadoDao;
+import dao.common.Constantes;
 import domain.ErrorApp;
 import domain.modelo.Empleado;
 import io.reactivex.rxjava3.core.Single;
@@ -21,11 +22,11 @@ public class AddEmpleadoUseCase {
         Single<Either<ErrorApp, Empleado>> result;
 
         if (!isValidEmail(empleado.getEmail())) {
-            result= Single.just(Either.left(new ErrorApp("Email no válido")));
+            result= Single.just(Either.left(new ErrorApp(Constantes.EMAIL_NO_VALIDO)));
         } else if (!LocalDate.now().isAfter(empleado.getFechaNacimiento())) {
-            result= Single.just(Either.left(new ErrorApp("Fecha de nacimiento no válida")));
-        } else if (empleado.getTelefono().matches(".*[a-zA-Z]+.*")) {
-            result= Single.just(Either.left(new ErrorApp("Teléfono no válido")));
+            result= Single.just(Either.left(new ErrorApp(Constantes.FECHA_DE_NACIMIENTO_NO_VALIDA)));
+        } else if (empleado.getTelefono().matches(Constantes.A_Z_A_Z)) {
+            result= Single.just(Either.left(new ErrorApp(Constantes.TELEFONO_NO_VALIDO)));
         } else {
             result= empleadoDao.add(empleado);
         }
@@ -33,7 +34,7 @@ public class AddEmpleadoUseCase {
     }
 
     private boolean isValidEmail(String email) {
-        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+        String emailRegex = Constantes.EMAILPATRON;
         Pattern pattern = Pattern.compile(emailRegex);
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();

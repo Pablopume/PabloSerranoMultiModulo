@@ -16,7 +16,7 @@ public class Configuration {
 
     private Configuration() {
         p = new Properties();
-        try (InputStream propertiesStream = this.getClass().getClassLoader().getResourceAsStream("mysql-properties.xml")) {
+        try (InputStream propertiesStream = this.getClass().getClassLoader().getResourceAsStream(ConstantesConfig.MYSQL_PROPERTIES_XML)) {
             p.loadFromXML(propertiesStream);
         } catch (IOException e) {
             log.error(e.getMessage());

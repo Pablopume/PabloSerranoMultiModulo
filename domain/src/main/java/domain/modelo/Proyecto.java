@@ -4,11 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 @AllArgsConstructor
 @Data
 public class Proyecto {
-    private String id;
+    private UUID id;
     private String nombre;
     private String descripcion;
     private LocalDate fechaInicio;

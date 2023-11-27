@@ -1,6 +1,5 @@
 package jakarta.errores;
 
-import dao.exceptions.NotValidMailException;
 import dao.exceptions.NotValidPhoneException;
 import domain.errores.ApiError;
 import jakarta.ws.rs.core.MediaType;

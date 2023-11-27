@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="346.0" prefWidth="535.0" style="-fx-background-color: #34b7eb" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.pantallas.equipos.EquiposController">
+    <TableView fx:id="equiposTable" layoutX="197.0" layoutY="52.0" prefHeight="297.0" prefWidth="324.0">
+        <columns>
+            <TableColumn fx:id="idColumn" prefWidth="34.0" text="id" />
+            <TableColumn fx:id="nameColumn" prefWidth="116.0" text="name" />
+            <TableColumn fx:id="especializacionColumn" prefWidth="173.0" text="especializacion" />
+        </columns>
+    </TableView>
+   <Button layoutX="43.0" layoutY="315.0" mnemonicParsing="false" onAction="#atras" text="Atras" />
+   <TextField fx:id="idSearch" layoutX="14.0" layoutY="27.0" prefHeight="25.0" prefWidth="174.0" promptText="Introduce un id" />
+   <Button layoutX="14.0" layoutY="61.0" mnemonicParsing="false" onAction="#buscar" text="Buscar" />
+   <Button layoutX="76.0" layoutY="61.0" mnemonicParsing="false" onAction="#reload" text="Recargar" />
+</AnchorPane>

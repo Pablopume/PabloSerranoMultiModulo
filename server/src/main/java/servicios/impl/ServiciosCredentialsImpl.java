@@ -7,6 +7,7 @@ import domain.modelo.Credentials;
 import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.ws.rs.core.Context;
+import servicios.ServicioConstantes;
 
 public class ServiciosCredentialsImpl {
     private final DaoCredentials daoCredentials;
@@ -20,10 +21,10 @@ public class ServiciosCredentialsImpl {
 
     public boolean checkCredentials(String user, String password) {
         boolean login = false;
-        request.getSession().setAttribute("LOGIN", null);
+        request.getSession().setAttribute(ServicioConstantes.LOGIN, null);
         Credentials credentials = daoCredentials.checkCredentials(user);
         if (verifyPassword(password, credentials.getPassword())) {
-            request.getSession().setAttribute("LOGIN", true);
+            request.getSession().setAttribute(ServicioConstantes.LOGIN, true);
             login = true;
         }
         return login;

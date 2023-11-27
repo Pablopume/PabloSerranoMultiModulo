@@ -1,10 +1,9 @@
 package dao.impl;
 
+import dao.ConstantesDao;
 import dao.DBConnectionPool;
 import dao.HasheoContrasenyas;
 import dao.exceptions.DataBaseCaidaException;
-import de.mkammerer.argon2.Argon2;
-import de.mkammerer.argon2.Argon2Factory;
 import domain.modelo.Credentials;
 import jakarta.inject.Inject;
 import java.sql.Connection;
@@ -13,7 +12,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class DaoCredentials {
-   private final DBConnectionPool dbConnectionPool;
+
+    private final DBConnectionPool dbConnectionPool;
     @Inject
     public DaoCredentials(DBConnectionPool dbConnectionPool) {
         this.dbConnectionPool = dbConnectionPool;
@@ -22,19 +22,18 @@ public class DaoCredentials {
     public Credentials checkCredentials(String user) {
         Credentials credentials = new Credentials();
         try (Connection con = dbConnectionPool.getConnection();
-             PreparedStatement preparedStatement = con.prepareStatement("SELECT * FROM Credentials WHERE username = ?")) {
+             PreparedStatement preparedStatement = con.prepareStatement(ConstantesDao.SELECT_FROM_CREDENTIALS_WHERE_USERNAME)) {
             preparedStatement.setString(1, user);
             ResultSet rs = preparedStatement.executeQuery();
             if (rs.next()) {
 
-                credentials.setUsername(rs.getString("username"));
-                credentials.setPassword(rs.getString("password"));
-             //   String storedHash = rs.getString("password");
-               // return verifyPassword(password, storedHash);
+                credentials.setUsername(rs.getString(ConstantesDao.USERNAME));
+                credentials.setPassword(rs.getString(ConstantesDao.PASSWORD));
+
             }
 
         } catch (SQLException ex) {
-            throw new DataBaseCaidaException("Error al comprobar las credenciales");
+            throw new DataBaseCaidaException(ConstantesDao.ERROR_AL_COMPROBAR_LAS_CREDENCIALES);
         }
         return credentials;
     }
@@ -42,7 +41,7 @@ public class DaoCredentials {
 
     public Credentials addCredentials(Credentials credentials) {
         try (Connection con = dbConnectionPool.getConnection();
-             PreparedStatement preparedStatement = con.prepareStatement("INSERT INTO Credentials (username, password) VALUES (?, ?)")) {
+             PreparedStatement preparedStatement = con.prepareStatement(ConstantesDao.INSERT_INTO_CREDENTIALS_USERNAME_PASSWORD_VALUES)) {
             preparedStatement.setString(1, credentials.getUsername());
             HasheoContrasenyas hasheoContrasenyas = new HasheoContrasenyas();
             preparedStatement.setString(2, hasheoContrasenyas.hashPassword(credentials.getPassword()));

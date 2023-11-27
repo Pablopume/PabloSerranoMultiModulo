@@ -1,13 +1,14 @@
 package jakarta.rest;
 
 import domain.modelo.Credentials;
+import jakarta.ConstantesRest;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import servicios.impl.ServiciosCredentialsImpl;
 
-@Path("/login")
+@Path(ConstantesRest.LOGINROUTE)
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class LoginRest {
@@ -20,7 +21,7 @@ public class LoginRest {
     }
 
     @GET
-    public Response getLogin(@QueryParam("user") String user, @QueryParam("password") String password) {
+    public Response getLogin(@QueryParam(ConstantesRest.USER) String user, @QueryParam(ConstantesRest.PASSWORD) String password) {
 
         Response response;
 

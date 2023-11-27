@@ -6,6 +6,7 @@ import jakarta.inject.Inject;
 import servicios.ServicioProyecto;
 
 import java.util.List;
+import java.util.UUID;
 
 public class ServiciosProyectoImpl implements ServicioProyecto {
 @Inject
@@ -19,7 +20,7 @@ private final DaoProyecto daoProyecto;
     }
 
     @Override
-    public Proyecto get(String id) {
+    public Proyecto get(UUID id) {
         return daoProyecto.get(id);
     }
 }

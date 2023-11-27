@@ -26,7 +26,7 @@ public class MainFX {
             controller.setStage(stage);
 
             stage.setScene(new Scene(fxmlParent));
-            stage.setTitle(r.getString("app.title"));
+            stage.setTitle(r.getString(Constantes.APP_TITLE));
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();

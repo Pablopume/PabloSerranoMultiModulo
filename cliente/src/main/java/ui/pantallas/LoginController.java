@@ -1,10 +1,10 @@
 package ui.pantallas;
 
-import io.reactivex.rxjava3.core.Scheduler;
+
+import dao.common.Constantes;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import jakarta.inject.Inject;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -26,7 +26,7 @@ public class LoginController extends BasePantallaController {
 
     public void login() {
         if (userField.getText().isEmpty() || passwordField.getText().isEmpty()) {
-            getPrincipalController().sacarAlertError("Rellene todos los campos");
+            getPrincipalController().sacarAlertError(Constantes.RELLENA_TODOS_LOS_CAMPOS);
         } else {
             loginUseCase.execute(userField.getText(),passwordField.getText()).observeOn(Schedulers.single())
                     .subscribe(either -> Platform.runLater(() -> {

@@ -11,6 +11,7 @@ import io.vavr.control.Either;
 import jakarta.inject.Inject;
 
 import java.util.List;
+import java.util.UUID;
 
 public class EquipoDaoImpl extends DaoGenerics implements EquipoDao {
     private final EquipoApi equipoApi;
@@ -28,7 +29,7 @@ public class EquipoDaoImpl extends DaoGenerics implements EquipoDao {
     }
 
     @Override
-    public Single<Either<ErrorApp, Equipo>> get(String id) {
+    public Single<Either<ErrorApp, Equipo>> get(UUID id) {
         return safeAPICall(equipoApi.get(id));
     }
 }

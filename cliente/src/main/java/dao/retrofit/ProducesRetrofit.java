@@ -38,7 +38,7 @@ public class ProducesRetrofit {
 
 
         return new Retrofit.Builder()
-                .baseUrl("http://localhost:8080/server-1.0-SNAPSHOT/api/")
+                .baseUrl(Constantes.URLBASEAPI)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
                 .client(clientOK)

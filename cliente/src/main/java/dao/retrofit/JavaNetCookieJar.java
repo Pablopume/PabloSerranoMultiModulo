@@ -1,11 +1,9 @@
 package dao.retrofit;
 
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by FernFlower decompiler)
-//
 
 
+
+import dao.common.Constantes;
 import okhttp3.Cookie;
 import okhttp3.Cookie.Builder;
 import okhttp3.CookieJar;
@@ -33,12 +31,12 @@ public final class JavaNetCookieJar implements CookieJar {
                 cookieStrings.add(cookie.toString());
             }
 
-            Map<String,List<String>> multimap = Collections.singletonMap("Set-Cookie", cookieStrings);
+            Map<String,List<String>> multimap = Collections.singletonMap(Constantes.SET_COOKIE, cookieStrings);
 
             try {
                 this.cookieHandler.put(url.uri(), multimap);
             } catch (IOException var6) {
-                Platform.get().log(5, "Saving cookies failed for " + url.resolve("/..."), var6);
+                Platform.get().log(5, Constantes.SAVING_COOKIES_FAILED_FOR + url.resolve(Constantes.EMPTYPOINTS), var6);
             }
         }
 
@@ -51,7 +49,7 @@ public final class JavaNetCookieJar implements CookieJar {
         try {
             cookieHeaders = this.cookieHandler.get(url.uri(), headers);
         } catch (IOException var10) {
-            Platform.get().log(5, "Loading cookies failed for " + url.resolve("/..."), var10);
+            Platform.get().log(5, Constantes.LOADING_COOKIES_FAILED_FOR + url.resolve(Constantes.EMPTYPOINTS), var10);
             return Collections.emptyList();
         }
 
@@ -69,7 +67,7 @@ public final class JavaNetCookieJar implements CookieJar {
 
                     entry = var5.next();
                     key = entry.getKey();
-                } while(!"Cookie".equalsIgnoreCase(key) && !"Cookie2".equalsIgnoreCase(key));
+                } while(!Constantes.COOKIE.equalsIgnoreCase(key) && !Constantes.COOKIE_2.equalsIgnoreCase(key));
             } while((entry.getValue()).isEmpty());
 
             String header;
@@ -88,12 +86,12 @@ public final class JavaNetCookieJar implements CookieJar {
 
         int pairEnd;
         for(int limit = header.length(); pos < limit; pos = pairEnd + 1) {
-            pairEnd = Util.delimiterOffset(header, pos, limit, ";,");
-            int equalsSign = Util.delimiterOffset(header, pos, pairEnd, '=');
+            pairEnd = Util.delimiterOffset(header, pos, limit, Constantes.DELIMITERS);
+            int equalsSign = Util.delimiterOffset(header, pos, pairEnd, Constantes.DELIMITER);
             String name = Util.trimSubstring(header, pos, equalsSign);
-            if (!name.startsWith("$")) {
-                String value = equalsSign < pairEnd ? Util.trimSubstring(header, equalsSign + 1, pairEnd) : "";
-                if (value.startsWith("\"") && value.endsWith("\"")) {
+            if (!name.startsWith(Constantes.DOLLAR)) {
+                String value = equalsSign < pairEnd ? Util.trimSubstring(header, equalsSign + 1, pairEnd) : Constantes.EMPTY;
+                if (value.startsWith(Constantes.SUFFIX) && value.endsWith(Constantes.SUFFIX)) {
                     value = value.substring(1, value.length() - 1);
                 }
 

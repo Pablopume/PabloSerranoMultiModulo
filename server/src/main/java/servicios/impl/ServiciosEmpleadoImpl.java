@@ -6,10 +6,12 @@ import dao.exceptions.NotValidMailException;
 import dao.exceptions.NotValidPhoneException;
 import domain.modelo.Empleado;
 import jakarta.inject.Inject;
+import servicios.ServicioConstantes;
 import servicios.ServiciosEmpleado;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -27,18 +29,18 @@ public class ServiciosEmpleadoImpl implements ServiciosEmpleado {
     }
 
     @Override
-    public Empleado get(String id) {
+    public Empleado get(UUID id) {
         return daoEmpleado.get(id);
     }
 
     @Override
     public Empleado add(Empleado empleado) {
         if (!isValidEmail(empleado.getEmail())) {
-            throw new NotValidMailException("Email no válido");
+            throw new NotValidMailException(ServicioConstantes.EMAIL_NO_VALIDO);
         } else if (!LocalDate.now().isAfter(empleado.getFechaNacimiento())) {
-            throw new NotValidDateException("Fecha de nacimiento no válida");
-        } else if (empleado.getTelefono().matches(".*[a-zA-Z]+.*")) {
-            throw new NotValidPhoneException("Teléfono no válido");
+            throw new NotValidDateException(ServicioConstantes.FECHA_DE_NACIMIENTO_NO_VALIDA);
+        } else if (empleado.getTelefono().matches(ServicioConstantes.PATRON)) {
+            throw new NotValidPhoneException(ServicioConstantes.TELEFONO_NO_VALIDO);
         }
         return daoEmpleado.add(empleado);
     }
@@ -46,11 +48,11 @@ public class ServiciosEmpleadoImpl implements ServiciosEmpleado {
     @Override
     public Empleado update(Empleado empleado) {
         if (!isValidEmail(empleado.getEmail())) {
-            throw new NotValidMailException("Email no válido");
+            throw new NotValidMailException(ServicioConstantes.EMAIL_NO_VALIDO);
         } else if (!LocalDate.now().isAfter(empleado.getFechaNacimiento())) {
-            throw new NotValidDateException("Fecha de nacimiento no válida");
-        } else if (empleado.getTelefono().matches(".*[a-zA-Z]+.*")) {
-            throw new NotValidPhoneException("Teléfono no válido");
+            throw new NotValidDateException(ServicioConstantes.FECHA_DE_NACIMIENTO_NO_VALIDA);
+        } else if (empleado.getTelefono().matches(ServicioConstantes.PATRON)) {
+            throw new NotValidPhoneException(ServicioConstantes.TELEFONO_NO_VALIDO);
         }
         return daoEmpleado.update(empleado);
     }
@@ -61,17 +63,17 @@ public class ServiciosEmpleadoImpl implements ServiciosEmpleado {
     }
 
     @Override
-    public List<Empleado> getAll(String equipoId) {
+    public List<Empleado> getAll(UUID equipoId) {
         return daoEmpleado.getAll(equipoId);
     }
 
     @Override
-    public void delete(String equipoId) {
+    public void delete(UUID equipoId) {
         daoEmpleado.delete(equipoId);
     }
 
     private boolean isValidEmail(String email) {
-        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+        String emailRegex = ServicioConstantes.PATRONMAIL;
         Pattern pattern = Pattern.compile(emailRegex);
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();

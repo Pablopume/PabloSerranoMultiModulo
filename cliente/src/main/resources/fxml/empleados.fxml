@@ -6,8 +6,8 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="521.0" prefWidth="1051.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.pantallas.articles.ArticlesController">
-    <TableView fx:id="articlesTable" layoutX="14.0" layoutY="210.0" prefHeight="253.0" prefWidth="309.0">
+<AnchorPane prefHeight="521.0" prefWidth="1051.0" style="-fx-background-color: #34b7eb" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.pantallas.empleados.EmpleadosController">
+    <TableView fx:id="empleadosTable" layoutX="14.0" layoutY="210.0" prefHeight="253.0" prefWidth="309.0">
         <columns>
             <TableColumn fx:id="idColumn" prefWidth="34.0" text="id" />
             <TableColumn fx:id="nameColumn" prefWidth="116.0" text="name" />
@@ -21,7 +21,7 @@
     <TextField fx:id="phoneField" layoutX="204.0" layoutY="70.0" prefHeight="25.0" prefWidth="174.0" promptText="phone" />
 
 
-   <Button layoutX="328.0" layoutY="210.0" mnemonicParsing="false" onAction="#reload" text="reload" />
+   <Button layoutX="328.0" layoutY="210.0" mnemonicParsing="false" onAction="#reload" text="Recargar" />
     <DatePicker fx:id="datePicker" layoutX="14.0" layoutY="118.0" promptText="Fecha de Nacimiento" />
     <ComboBox fx:id="comboTipo" layoutX="204.0" layoutY="118.0" prefHeight="25.0" prefWidth="174.0" promptText="Equipo">
         <items>
@@ -31,7 +31,7 @@
             </FXCollections>
         </items>
     </ComboBox>
-    <Button layoutX="14.0" layoutY="173.0" mnemonicParsing="false" onAction="#addArticle" text="Add" />
+    <Button layoutX="14.0" layoutY="173.0" mnemonicParsing="false" onAction="#addEmpleado" text="Add" />
 
     <Text layoutX="605.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Click en un equipo para ver sus miembros" wrappingWidth="330.0">
         <font>

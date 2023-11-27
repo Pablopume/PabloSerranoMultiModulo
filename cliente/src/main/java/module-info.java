@@ -17,7 +17,7 @@ module cliente{
     requires org.apache.logging.log4j;
     exports ui.main;
     exports dao.impl;
-    opens ui.pantallas.articles;
+    opens ui.pantallas.empleados;
     exports ui.common;
     exports usecases.empleado;
     exports dao.common;
@@ -30,9 +30,13 @@ module cliente{
     exports dao.di;
     exports ui.menu;
     opens ui.menu;
-    exports ui.pantallas.newspapers;
-    exports ui.pantallas.readers;
+    exports ui.pantallas.equipos;
+    exports ui.pantallas.proyectos;
     exports usecases.login;
     exports ui.pantallas;
     opens ui.pantallas;
+    opens dao.common;
+    opens ui.pantallas.equipos;
+    opens ui.pantallas.proyectos;
+    opens ui.common;
 }

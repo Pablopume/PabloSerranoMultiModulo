@@ -1,7 +1,7 @@
 package jakarta.rest;
 
 import domain.modelo.Empleado;
-import domain.modelo.Equipo;
+import jakarta.ConstantesRest;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -9,9 +9,10 @@ import jakarta.ws.rs.core.Response;
 import servicios.ServiciosEmpleado;
 
 import java.util.List;
+import java.util.UUID;
 
 
-@Path("/empleados")
+@Path(ConstantesRest.EMPLEADOS)
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class EmpleadoRest {
@@ -28,14 +29,14 @@ public class EmpleadoRest {
     }
 
     @GET
-    @Path("/equipo/{id}")
-    public List<Empleado> getAllEmpleados(@PathParam("id") String id) {
+    @Path(ConstantesRest.EQUIPO_ID)
+    public List<Empleado> getAllEmpleados(@PathParam(ConstantesRest.ID) UUID id) {
         return servicesEmpleado.getAll(id);
     }
 
     @GET
-    @Path("/{id}")
-    public Empleado getEmpleado(@PathParam("id") String id) {
+    @Path(ConstantesRest.PATHID)
+    public Empleado getEmpleado(@PathParam(ConstantesRest.ID) UUID id) {
         return servicesEmpleado.get(id);
     }
 
@@ -45,16 +46,16 @@ public class EmpleadoRest {
     }
 
     @DELETE
-    @Path("/{id}")
-    public Response delEmpleado(@PathParam("id") String id) {
+    @Path(ConstantesRest.PATHID)
+    public Response delEmpleado(@PathParam(ConstantesRest.ID) UUID id) {
         servicesEmpleado.delete(servicesEmpleado.get(id));
         return Response.status(Response.Status.NO_CONTENT).build();
 
     }
 
     @DELETE
-    @Path("/equipo/{id}")
-    public Response delEmpleadoEquipo(@PathParam("id") String id) {
+    @Path(ConstantesRest.EQUIPO_ID)
+    public Response delEmpleadoEquipo(@PathParam(ConstantesRest.ID) UUID id) {
         servicesEmpleado.delete(id);
         return Response.status(Response.Status.NO_CONTENT).build();
     }

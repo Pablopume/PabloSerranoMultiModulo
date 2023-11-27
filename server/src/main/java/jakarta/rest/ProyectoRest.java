@@ -1,13 +1,16 @@
 package jakarta.rest;
 
 import domain.modelo.Proyecto;
+import jakarta.ConstantesRest;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import servicios.ServicioProyecto;
 
 import java.util.List;
-@Path("/proyectos")
+import java.util.UUID;
+
+@Path(ConstantesRest.PROYECTOS)
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class ProyectoRest {
@@ -23,8 +26,8 @@ public class ProyectoRest {
     }
 
     @GET
-    @Path("/{id}")
-    public Proyecto getProyecto(@PathParam("id") String id) {
+    @Path(ConstantesRest.PATHID)
+    public Proyecto getProyecto(@PathParam(ConstantesRest.ID) UUID id) {
         return servicesProyecto.get(id);
     }
 
