@@ -28,6 +28,9 @@ public class EmpleadoDaoImpl extends DaoGenerics implements EmpleadoDao {
         return safeAPICall(empleadoApi.getAll());
     }
 
+    public Single<Either<ErrorApp, String>> deleteEmpleados(List<UUID> listaId) {
+        return safeSingleVoidApicall(empleadoApi.deleteEmpleados(listaId));
+    }
     @Override
     public Single<Either<ErrorApp, Empleado>> get(String id) {
         return safeAPICall(empleadoApi.get(id));

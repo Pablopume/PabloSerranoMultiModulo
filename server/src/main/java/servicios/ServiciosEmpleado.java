@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.UUID;
 
 public interface ServiciosEmpleado {
+    void delete(List<UUID> listaId);
     List<Empleado> getAll();
     Empleado get(UUID id);
     Empleado add(Empleado empleado);

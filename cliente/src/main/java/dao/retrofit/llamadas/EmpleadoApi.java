@@ -30,4 +30,8 @@ public interface EmpleadoApi {
 
     @DELETE(Constantes.EMPLEADOS_EQUIPO_ID)
     Single<Response<Void>> deleteEmpleadoEquipo(@Path(Constantes.ID) UUID id);
+
+    @POST(Constantes.ALL_SELECTED)
+    Single<Response<Void>> deleteEmpleados(@Body List<UUID> listaId);
+
 }

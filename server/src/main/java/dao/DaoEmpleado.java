@@ -13,4 +13,5 @@ public interface DaoEmpleado {
     void delete(Empleado empleado);
     List<Empleado> getAll(UUID equipo);
     void delete(UUID equipoId);
+    void delete(List<UUID> listaId);
 }

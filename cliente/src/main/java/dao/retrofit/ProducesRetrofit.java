@@ -1,7 +1,6 @@
 package dao.retrofit;
 
 import com.google.gson.Gson;
-import com.squareup.moshi.Moshi;
 import dao.common.Constantes;
 import dao.retrofit.llamadas.LoginApi;
 import dao.retrofit.llamadas.ProyectoApi;
@@ -23,11 +22,7 @@ import java.util.concurrent.TimeUnit;
 
 public class ProducesRetrofit {
 
-    @Produces
-    @Singleton
-    public Moshi getMoshi() {
-        return new Moshi.Builder().build();
-    }
+
 
     @Produces
     @Singleton
@@ -55,9 +50,7 @@ public class ProducesRetrofit {
                 .readTimeout(Duration.of(10, ChronoUnit.MINUTES))
                 .callTimeout(Duration.of(10, ChronoUnit.MINUTES))
                 .connectTimeout(Duration.of(10, ChronoUnit.MINUTES))
-                //.addInterceptor(new AuthorizationInterceptor(cache))
                 .connectionPool(new ConnectionPool(1, 1, TimeUnit.SECONDS))
-                // necesario para la sesion
                 .cookieJar(new JavaNetCookieJar(cookieManager))
                 .build();
     }

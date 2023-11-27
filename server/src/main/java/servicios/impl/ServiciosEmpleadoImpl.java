@@ -18,9 +18,15 @@ import java.util.regex.Pattern;
 public class ServiciosEmpleadoImpl implements ServiciosEmpleado {
     private final DaoEmpleado daoEmpleado;
 
+
     @Inject
     public ServiciosEmpleadoImpl(DaoEmpleado daoEmpleado) {
         this.daoEmpleado = daoEmpleado;
+    }
+
+    @Override
+    public void delete(List<UUID> listaId) {
+        daoEmpleado.delete(listaId);
     }
 
     @Override

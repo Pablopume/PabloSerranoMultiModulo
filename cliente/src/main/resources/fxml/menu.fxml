@@ -4,15 +4,18 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #34b7eb" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.menu.MenuController">
-   <children>
-      <Label layoutX="59.0" layoutY="102.0" prefHeight="43.0" prefWidth="499.0" text="Gestión Empleados Pumington">
-         <font>
-            <Font name="Candara Light" size="36.0" />
-         </font>
-      </Label>
-      <Button layoutX="59.0" layoutY="187.0" mnemonicParsing="false" onAction="#enterEmpleados" prefHeight="85.0" prefWidth="85.0" text="Empleados" />
-      <Button layoutX="246.0" layoutY="187.0" mnemonicParsing="false" onAction="#enterEquipos" prefHeight="85.0" prefWidth="85.0" text="Equipos" />
-      <Button layoutX="423.0" layoutY="187.0" mnemonicParsing="false" onAction="#enterProyectos" prefHeight="85.0" prefWidth="94.0" text="Proyectos" />
-   </children>
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #34b7eb"
+            xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="ui.menu.MenuController">
+   <Label layoutX="59.0" layoutY="102.0" prefHeight="43.0" prefWidth="499.0" text="Gestión Empleados Pumington">
+      <font>
+         <Font name="VOGA" size="36.0"/>
+      </font>
+   </Label>
+   <Button layoutX="59.0" layoutY="187.0" mnemonicParsing="false" onAction="#enterEmpleados" prefHeight="85.0"
+           prefWidth="85.0" text="Empleados"/>
+   <Button layoutX="246.0" layoutY="187.0" mnemonicParsing="false" onAction="#enterEquipos" prefHeight="85.0"
+           prefWidth="85.0" text="Equipos"/>
+   <Button layoutX="423.0" layoutY="187.0" mnemonicParsing="false" onAction="#enterProyectos" prefHeight="85.0"
+           prefWidth="94.0" text="Proyectos"/>
 </AnchorPane>

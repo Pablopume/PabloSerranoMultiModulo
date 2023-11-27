@@ -25,9 +25,11 @@ public class EmpleadosViewModel {
     private final DeleteEmpleadoUseCase deleteEmpleadoUseCase;
     private final UpdateEmpleadoUseCase updateEmpleadoUseCase;
     private final DeleteByEquipoUseCase deleteByEquipoUseCase;
+    private final DeleteListaEmpleadosUseCase deleteListaEmpleadosUseCase;
     private UUID tablaSeleccionada = null;
+
     @Inject
-    EmpleadosViewModel(GetAllEmpleadosUseCase getAllEmpleadosUseCase, AddEmpleadoUseCase addEmpleadoUseCase, GetAllEquipoUseCase getAllEquipoUseCase, GetAllByEquipo getAllByEquipo, DeleteEmpleadoUseCase deleteEmpleadoUseCase, UpdateEmpleadoUseCase updateEmpleadoUseCase, DeleteByEquipoUseCase deleteByEquipoUseCase){
+    EmpleadosViewModel(GetAllEmpleadosUseCase getAllEmpleadosUseCase, AddEmpleadoUseCase addEmpleadoUseCase, GetAllEquipoUseCase getAllEquipoUseCase, GetAllByEquipo getAllByEquipo, DeleteEmpleadoUseCase deleteEmpleadoUseCase, UpdateEmpleadoUseCase updateEmpleadoUseCase, DeleteByEquipoUseCase deleteByEquipoUseCase, DeleteListaEmpleadosUseCase deleteListaEmpleadosUseCase) {
         this.getAllEmpleadosUseCase = getAllEmpleadosUseCase;
         this.getAllEquipoUseCase = getAllEquipoUseCase;
         this.addEmpleadoUseCase = addEmpleadoUseCase;
@@ -35,6 +37,7 @@ public class EmpleadosViewModel {
         this.deleteEmpleadoUseCase = deleteEmpleadoUseCase;
         this.updateEmpleadoUseCase = updateEmpleadoUseCase;
         this.deleteByEquipoUseCase = deleteByEquipoUseCase;
+        this.deleteListaEmpleadosUseCase = deleteListaEmpleadosUseCase;
         state = new SimpleObjectProperty<>(new EmpleadosState(FXCollections.observableArrayList()
                 , FXCollections.observableArrayList(), null));
     }
@@ -52,9 +55,9 @@ public class EmpleadosViewModel {
                     EmpleadosState empleadosState;
 
                     if (either.isLeft()) {
-                        empleadosState = new EmpleadosState(null,null, either.getLeft());
+                        empleadosState = new EmpleadosState(null, null, either.getLeft());
                     } else {
-                        empleadosState = new EmpleadosState(either.get(),state.get().equipoList(), null);
+                        empleadosState = new EmpleadosState(either.get(), state.get().equipoList(), null);
                     }
 
                     state.setValue(empleadosState);
@@ -67,10 +70,10 @@ public class EmpleadosViewModel {
                 .subscribe(either -> {
                     EmpleadosState empleadosState;
                     if (either.isLeft()) {
-                        empleadosState = new EmpleadosState(null,null, either.getLeft());
+                        empleadosState = new EmpleadosState(null, null, either.getLeft());
                     } else {
                         empleadosState = new EmpleadosState(state.get().empleadoList(), either.get(), null);
-                    tablaSeleccionada = null;
+                        tablaSeleccionada = null;
                     }
                     state.setValue(empleadosState);
                 });
@@ -82,10 +85,11 @@ public class EmpleadosViewModel {
                 .subscribe(either -> {
                     EmpleadosState empleadosState;
                     if (either.isLeft()) {
-                        empleadosState = new EmpleadosState(new ArrayList<>(),null, either.getLeft());
+                        tablaSeleccionada = equipoId;
+                        empleadosState = new EmpleadosState(new ArrayList<>(), null, either.getLeft());
                     } else {
-                        empleadosState = new EmpleadosState(either.get(),state.get().equipoList(), null);
-                    tablaSeleccionada = equipoId;
+                        empleadosState = new EmpleadosState(either.get(), state.get().equipoList(), null);
+                        tablaSeleccionada = equipoId;
 
                     }
                     state.setValue(empleadosState);
@@ -103,7 +107,7 @@ public class EmpleadosViewModel {
                         empleadosState = new EmpleadosState(state.getValue().empleadoList(), state.getValue().equipoList(), either.getLeft());
                     } else {
                         List<Empleado> newEmpleadoList = new ArrayList<>(state.getValue().empleadoList());
-                        if (tablaSeleccionada==null || (String.valueOf(tablaSeleccionada)).equals(String.valueOf(empleado.getEquipoId()))){
+                        if (tablaSeleccionada == null || (String.valueOf(tablaSeleccionada)).equals(String.valueOf(empleado.getEquipoId()))) {
                             newEmpleadoList.add(either.get());
                         }
                         empleadosState = new EmpleadosState(newEmpleadoList, state.get().equipoList(), null);
@@ -119,10 +123,10 @@ public class EmpleadosViewModel {
                 .subscribe(either -> {
                     EmpleadosState empleadosState;
                     if (either.isLeft()) {
-                        empleadosState = new EmpleadosState(null, null,either.getLeft());
+                        empleadosState = new EmpleadosState(null, null, either.getLeft());
                     } else {
                         List<Empleado> newEmpleadoList = new ArrayList<>(state.getValue().empleadoList());
-                        newEmpleadoList.removeIf(empleado -> empleado.getId()==id);
+                        newEmpleadoList.removeIf(empleado -> empleado.getId() == id);
 
                         empleadosState = new EmpleadosState(newEmpleadoList, state.get().equipoList(), null);
                     }
@@ -136,11 +140,11 @@ public class EmpleadosViewModel {
                 .subscribe(either -> {
                     EmpleadosState empleadosState;
                     if (either.isLeft()) {
-                        empleadosState = new EmpleadosState(null, null,either.getLeft());
+                        empleadosState = new EmpleadosState(null, null, either.getLeft());
                     } else {
                         List<Empleado> newEmpleadoList = new ArrayList<>(state.getValue().empleadoList());
                         newEmpleadoList.removeIf(empleado1 -> empleado1.getId().equals(empleado.getId()));
-                        if (tablaSeleccionada==null ||(String.valueOf(tablaSeleccionada)).equals(String.valueOf(empleado.getEquipoId()))){
+                        if (tablaSeleccionada == null || (String.valueOf(tablaSeleccionada)).equals(String.valueOf(empleado.getEquipoId()))) {
                             newEmpleadoList.add(either.get());
                         }
                         empleadosState = new EmpleadosState(newEmpleadoList, state.get().equipoList(), null);
@@ -148,13 +152,14 @@ public class EmpleadosViewModel {
                     state.setValue(empleadosState);
                 });
     }
+
     public void deleteEmpleadoByEquipo(UUID id) {
         deleteByEquipoUseCase.execute(id)
                 .observeOn(Schedulers.single())
                 .subscribe(either -> {
                     EmpleadosState empleadosState;
                     if (either.isLeft()) {
-                        empleadosState = new EmpleadosState(null, null,either.getLeft());
+                        empleadosState = new EmpleadosState(null, null, either.getLeft());
                     } else {
                         empleadosState = new EmpleadosState(emptyList(), state.get().equipoList(), null);
                     }
@@ -162,4 +167,17 @@ public class EmpleadosViewModel {
                 });
     }
 
+    public void deleteListaEmpleados(List<UUID> listaId) {
+        deleteListaEmpleadosUseCase.execute(listaId)
+                .observeOn(Schedulers.single())
+                .subscribe(either -> {
+                    EmpleadosState empleadosState;
+                    if (either.isLeft()) {
+                        empleadosState = new EmpleadosState(null, null, either.getLeft());
+                    } else {
+                        empleadosState = new EmpleadosState(emptyList(), state.get().equipoList(), null);
+                    }
+                    state.setValue(empleadosState);
+                });
+    }
 }

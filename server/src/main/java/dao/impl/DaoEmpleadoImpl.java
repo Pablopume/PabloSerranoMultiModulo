@@ -43,6 +43,20 @@ public class DaoEmpleadoImpl implements DaoEmpleado {
         return empleados;
     }
 
+
+    public void delete(List<UUID> listaId) {
+        try (Connection myConnection = db.getConnection();
+             PreparedStatement statement = myConnection.prepareStatement(Querys.DELETE_FROM_EMPLEADO_WHERE_ID)) {
+            for (UUID id : listaId) {
+                statement.setString(1, String.valueOf(id));
+                statement.executeUpdate();
+            }
+            db.closeConnection(myConnection);
+        } catch (SQLException e) {
+            log.error(e.getMessage());
+        }
+    }
+
     @Override
     public void delete(UUID equipoId) {
         try (Connection myConnection = db.getConnection();

@@ -7,7 +7,6 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import servicios.ServiciosEmpleado;
-
 import java.util.List;
 import java.util.UUID;
 
@@ -59,6 +58,14 @@ public class EmpleadoRest {
         servicesEmpleado.delete(id);
         return Response.status(Response.Status.NO_CONTENT).build();
     }
+
+    @POST
+    @Path(ConstantesRest.ALL_SELECTED)
+    public Response delAllEmpleados(List<UUID> lista) {
+        servicesEmpleado.delete(lista);
+        return Response.status(Response.Status.NO_CONTENT).build();
+    }
+
 
     @PUT
     public Empleado updateEmpleado(Empleado empleado) {

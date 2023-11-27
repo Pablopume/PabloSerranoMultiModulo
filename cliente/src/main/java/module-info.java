@@ -10,7 +10,6 @@ module cliente{
     requires io.vavr;
     requires io.reactivex.rxjava3;
     requires domain;
-    requires moshi;
     requires retrofit2.converter.gson;
     requires retrofit2.adapter.rxjava3;
     requires javafx.controls;

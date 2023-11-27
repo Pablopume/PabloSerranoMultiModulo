@@ -45,6 +45,8 @@ public class Constantes {
             Filtrar lista por equipo -> Seleccionar un equipo de la tabla de equipos
             Al añadir un empleado si estás filtrando por un equipo solo lo verás en la tabla instantaneamente si pertenece al equipo seleccionado
             Al actualizar, si cambias de equipo al empleado y estás filtrando por otro equipo, desaparecerá de esa tabla ya que ya no pertenece a ese equipo.
+            Puedes borrar todos los empleados de un equipo seleccionando el equipo y pulsando el botón de delete.
+            Con el botón de delete todos los empleados de la tabla, se borrarán todos los empleados de la tabla de la izquierda.
             """;
     public static final String SELECCIONA_UN_EQUIPO = "Selecciona un equipo";
     public static final String DESCRIPCION = "descripcion";
@@ -53,6 +55,8 @@ public class Constantes {
     public static final String A_Z_A_Z = ".*[a-zA-Z]+.*";
     public static final String TELEFONO_NO_VALIDO = "Teléfono no válido";
     public static final String EMAILPATRON = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+    public static final String ALL_SELECTED = "empleados/allSelected";
+    public static final String TABLAVACIA = "La tablla de la izquierda está vacía";
 
     private Constantes() {
     }

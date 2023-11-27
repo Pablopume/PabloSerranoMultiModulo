@@ -1,6 +1,8 @@
 package jakarta;
 
 public class ConstantesRest {
+    public static final String ALL_SELECTED = "/allSelected";
+
     private ConstantesRest() {
     }
     public static final String LOGINROUTE = "/login";

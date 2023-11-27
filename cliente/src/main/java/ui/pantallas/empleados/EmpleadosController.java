@@ -12,6 +12,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import ui.common.BasePantallaController;
 import ui.common.Pantallas;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class EmpleadosController extends BasePantallaController {
@@ -101,15 +103,15 @@ public class EmpleadosController extends BasePantallaController {
         if (nameField.getText().isEmpty() || surnameField.getText().isEmpty() || datePicker.getValue() == null || emailField.getText().isEmpty() || phoneField.getText().isEmpty() || comboTipo.getValue() == null) {
             getPrincipalController().sacarAlertError(Constantes.RELLENA_TODOS_LOS_CAMPOS);
 
-        }else {
+        } else {
             UUID idTeam = null;
             if (comboTipo.getValue().equals(Constantes.IOS)) {
-                idTeam =UUID.fromString(Constantes.UUIDIOS);
+                idTeam = UUID.fromString(Constantes.UUIDIOS);
             }
             if (comboTipo.getValue().equals(Constantes.ANDROID)) {
-                idTeam =UUID.fromString (Constantes.UUIDANDROID);
+                idTeam = UUID.fromString(Constantes.UUIDANDROID);
             }
-            empleadosViewModel.addEmpleado(new Empleado(nameField.getText(), surnameField.getText(), datePicker.getValue(), emailField.getText(), phoneField.getText(), idTeam) );
+            empleadosViewModel.addEmpleado(new Empleado(nameField.getText(), surnameField.getText(), datePicker.getValue(), emailField.getText(), phoneField.getText(), idTeam));
 
         }
     }
@@ -139,10 +141,10 @@ public class EmpleadosController extends BasePantallaController {
         if (selectedEmpleado == null) {
             getPrincipalController().sacarAlertError(Constantes.SELECCIONA_UN_EMPLEADO);
 
-        } else if(nameField.getText().isEmpty() || surnameField.getText().isEmpty() || datePicker.getValue() == null || emailField.getText().isEmpty() || phoneField.getText().isEmpty()) {
+        } else if (nameField.getText().isEmpty() || surnameField.getText().isEmpty() || datePicker.getValue() == null || emailField.getText().isEmpty() || phoneField.getText().isEmpty()) {
             getPrincipalController().sacarAlertError(Constantes.RELLENA_TODOS_LOS_CAMPOS);
 
-        }else {
+        } else {
             UUID idTeam = null;
             if (comboTipo.getValue().equals(Constantes.IOS)) {
                 idTeam = UUID.fromString(Constantes.UUIDIOS);
@@ -150,7 +152,7 @@ public class EmpleadosController extends BasePantallaController {
             if (comboTipo.getValue().equals(Constantes.ANDROID)) {
                 idTeam = UUID.fromString(Constantes.UUIDANDROID);
             }
-            Empleado empleado = new Empleado(selectedEmpleado.getId(), nameField.getText(), surnameField.getText(), datePicker.getValue(), emailField.getText(), phoneField.getText(),idTeam);
+            Empleado empleado = new Empleado(selectedEmpleado.getId(), nameField.getText(), surnameField.getText(), datePicker.getValue(), emailField.getText(), phoneField.getText(), idTeam);
             empleadosViewModel.updateEmpleado(empleado);
         }
 
@@ -171,6 +173,18 @@ public class EmpleadosController extends BasePantallaController {
             getPrincipalController().sacarAlertError(Constantes.SELECCIONA_UN_EQUIPO);
         } else {
             empleadosViewModel.deleteEmpleadoByEquipo(selectedEquipo.getId());
+        }
+    }
+
+    public void deleteEmpleadosPorUUID() {
+        List<UUID> listaId = new ArrayList<>();
+        for (Empleado empleado : empleadosTable.getItems()) {
+            listaId.add(empleado.getId());
+        }
+        if (listaId.isEmpty()) {
+            getPrincipalController().sacarAlertError(Constantes.TABLAVACIA);
+        } else {
+            empleadosViewModel.deleteListaEmpleados(listaId);
         }
     }
 }
